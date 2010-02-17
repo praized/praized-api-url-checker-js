@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>tests.fireunit</title>
+	<script src="praized-api-url-checker.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<h1>Tests require Firebug and Fireunit</h1>
+	<ul>
+		<li><a href="http://getfirebug.com/">firebug</a></li>
+		<li><a href="http://fireunit.org/">fireunit</a></li>		
+	</ul>
+<script type="text/javascript" charset="utf-8">
+/*
+	TODO: 
+	
+		- Get better and moar massive mock data from @magagnon
+		- rewrite tests with better data
+		- test for error message correctness
+*/
+
+var testValid,
+isValid;
+var testAValidURL = function(url) {
+    testValid = url;
+    isValid = PraizedAPIURLChecker.check(testValid);
+    fireunit.ok(isValid, testValid);
+    if (!isValid) {
+        fireunit.log(PraizedAPIURLChecker.messages.join(','));
+    }
+}
+var testAnInvalidURL = function(url) {
+    testValid = url;
+    isValid = PraizedAPIURLChecker.check(testValid);
+    fireunit.ok(!isValid, testValid);
+}
+var testCollection = function(collection, tester) {
+    for (var i = 0, item; item = collection[i++];) {
+        tester(item);
+    }
+}
+// test a collection of valid URLS
+fireunit.group('VALID URLS ARE VALID');
+testCollection(
+[
+	'http://api.dev.praized.com/some-slug.json?api_key=123451234512345123451234512345FF',
+	'http://api.dev.praized.com/some-slug/merchants.json?api_key=123451234512345123451234512345FF',
+	'http://api.dev.praized.com/some-slug/merchants/123451234512345123451234512345FF.json?api_key=123451234512345123451234512345FF',
+	'http://api.dev.praized.com/users/quickredfox.json?api_key=123451234512345123451234512345FF&community_slug=some-slug',
+	'http://api.dev.praized.com/some-slug/actions/123451234512345123451234512345FFAA/comments.json?api_key=123451234512345123451234512345FF',
+	'http://api.dev.praized.com/some-slug/search?api_key=123451234512345123451234512345FF&q=sushi&l=meh',
+	'http://api.praized.com/some-slug/search?api_key=123451234512345123451234512345FF&q=sushi&l=meh',
+	'http://api.praized.com/praized-com-hub/merchants/96423266cd5145552decb67454b13e4e/comments.json?api_key=704573d9eb36a62d630173a9e9c291d1&callback=jsonp1265685066271'
+], testAValidURL);
+fireunit.groupEnd();
+
+// test a collection of invalid URLS
+fireunit.group('INVALID URLS ARE INVALID');
+testCollection(
+[
+	'http://api.dev.praized.com.json?api_key=123451234512345123451234512345FF',
+	'http://google.com/some-slug/merchants.json?api_key=123451234512345123451234512345FF',
+	'http://api.dev.praized.com/some-slug.json',
+	'http://api.dev.praized.com.json?community_slug=some-slug',
+	'http://api.praized.com/merchants?api_key=123',
+	'http://api.praized.com/users/m.json?api_key=123',
+	'http://api.praized.com?api_key=123451234512345123451234512345FF',
+	'http://?api_key=123451234512345123451234512345FF&community_slug=meh'
+], testAnInvalidURL);
+
+fireunit.groupEnd();
+fireunit.testDone()
+</script>
+</body>
+</html>
