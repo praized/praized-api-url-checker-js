@@ -4,7 +4,7 @@
  *  
  *  	- A URL considered as VALID by this tool CAN in fact be invalid (gotcha alert: when true isn't always so)
  *  	- A URL that is considered invalid for the API MUST be flagged as invalid by this tool 
- *  .. in other words: this should be reflected in tests.
+ *  .. in other words: this should be reflected in tests (not included within this file).
  * 
  *
  * Author: Francois Lafortune
