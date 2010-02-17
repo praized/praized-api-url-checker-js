@@ -2,7 +2,6 @@ Javascript Tool to checks if a URL is potentially an invalid Praized API call
 
 
 Usage: 
-<pre>
 
 // an invalid url
 var invalid  = 'http://api.praized.com/merchants/bob.json';
@@ -13,4 +12,3 @@ PraizedAPIURLChecker.check(invalid) // false
 // get error messages
 print( PraizedAPIURLChecker.messages.join(',') ); // "Api Key Missing."
 
-</pre>
