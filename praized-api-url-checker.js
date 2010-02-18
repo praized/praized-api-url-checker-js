@@ -25,6 +25,7 @@
  */
 
 (function(){
+	// Regular Expressions to match path parts, mostly pulled from praized lib in rails app
 	var RE = {
 		host: /^api(\.dev)?.praized.com$/,
 		slug: /^[a-zA-Z_-][a-zA-Z\d_-]+$/,
@@ -33,6 +34,7 @@
 		login: /^[a-zA-Z_-][a-zA-Z\d_-]+$/,
 		tag:/^[a-z[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]\s\d-]{2,20}$/
 	},
+	// grabs a param value from a url or returns false if not present
 	param = function(url,name){
 		var key = url.indexOf(name);
 		if(key < 0) return false;			
@@ -40,11 +42,13 @@
 		var val = url.slice(key+name.length+1,end);
 		return (val ? (val == '' ? false : val) : false);
 	},
+	// takes a param-provided community slug and sticks it in the path parts
 	normalizeParts = function(url,parts){
 		// normalize path parts to include slug if slug passed as parameter
 		if(RE.resource.test(parts[1])) parts.splice(1,0,param(url,'community_slug'));
 		return parts;
 	};
+	// the public interface
 	this.PraizedAPIURLChecker = {
 		check: function(url){
 			var path,params,api_key,messages=[],valid = true;
@@ -79,24 +83,24 @@
 						if(parts[2] && !RE.resource.test(parts[2])){
 							messages.push('Resource is not valid');
 							valid = false;				
-						}
+						};
 						// validate resource pid part if present										
 						if(parts[3] && !RE.login.test(parts[3])){
 							messages.push('Login is not valid');
 							valid = false;				
-						}
-						break
+						};
+						break;
 						default:
 						// validate resource part if present					
 						if(parts[2] && !RE.resource.test(parts[2])){
 							messages.push('Resource is not valid');
 							valid = false;				
-						}
+						};
 						// validate resource pid part if present										
 						if(parts[3] && !RE.pid.test(parts[3])){
 							messages.push('PID is not valid');
 							valid = false;				
-						}
+						};
 						break;
 					};
 					if(parts[4] && !RE.resource.test(parts[4])){
@@ -108,18 +112,17 @@
 						valid = false;				
 					};
 					if(!(api_key = param(url,'api_key'))){
-						messages.push('Api Key Missing.')
-						valid = false
+						messages.push('Api Key Missing.');
+						valid = false;
 					}else{
-						console.debug(api_key)
 						if(!RE.pid.test(api_key)){
-							messages.push('Api Key Illegal.')
-							valid = false							
-						}
-					}
-				}
-
-			}
+							messages.push('Api Key Illegal.');
+							valid = false;		
+						};
+					};
+				};
+			};
+			// set/reset messages
 			this.messages = valid ? [] : messages ;
 			return valid;
 		}
