@@ -5,7 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<title>tests.fireunit</title>
-	<script src="praized-api-url-checker.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../praized-api-url-checker.js" type="text/javascript" charset="utf-8"></script>
+	<script src="valid-urls.js" type="text/javascript" charset="utf-8"></script>
 </head>
 
 <body>
@@ -22,10 +23,10 @@
 		- rewrite tests with better data
 		- test for error message correctness
 */
-
+// 1401 <- post with no write access on key
 var testValid,
 isValid;
-var testAValidURL = function(url) {
+var testAValidURLIsValid = function(url) {
     testValid = url;
     isValid = PraizedAPIURLChecker.check(testValid);
     fireunit.ok(isValid, testValid);
@@ -45,17 +46,7 @@ var testCollection = function(collection, tester) {
 }
 // test a collection of valid URLS
 fireunit.group('VALID URLS ARE VALID');
-testCollection(
-[
-	'http://api.dev.praized.com/some-slug.json?api_key=123451234512345123451234512345FF',
-	'http://api.dev.praized.com/some-slug/merchants.json?api_key=123451234512345123451234512345FF',
-	'http://api.dev.praized.com/some-slug/merchants/123451234512345123451234512345FF.json?api_key=123451234512345123451234512345FF',
-	'http://api.dev.praized.com/users/quickredfox.json?api_key=123451234512345123451234512345FF&community_slug=some-slug',
-	'http://api.dev.praized.com/some-slug/actions/123451234512345123451234512345FFAA/comments.json?api_key=123451234512345123451234512345FF',
-	'http://api.dev.praized.com/some-slug/search?api_key=123451234512345123451234512345FF&q=sushi&l=meh',
-	'http://api.praized.com/some-slug/search?api_key=123451234512345123451234512345FF&q=sushi&l=meh',
-	'http://api.praized.com/praized-com-hub/merchants/96423266cd5145552decb67454b13e4e/comments.json?api_key=704573d9eb36a62d630173a9e9c291d1&callback=jsonp1265685066271'
-], testAValidURL);
+testCollection(validURLS, testAValidURLIsValid);
 fireunit.groupEnd();
 
 // test a collection of invalid URLS
