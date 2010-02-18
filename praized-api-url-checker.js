@@ -28,7 +28,7 @@
 	var RE = {
 		host: /^api(\.dev)?.praized.com$/,
 		slug: /^[a-zA-Z_-][a-zA-Z\d_-]+$/,
-		resource: /^(actions|merchants|users|questions|answers|communities|favorites|votes|comments|search|realtime_items|replies|checkins|shares|friends|location|settings)$/,
+		resource: /^(actions|merchants|users|questions|answers|communities|favorites|votes|comments|search|realtime_items|replies|checkins|shares|friends|location|settings|avatar|broadcast_services|action_types)$/,
 		pid: /^[a-f0-9]{32,34}$/i,
 		login: /^[a-zA-Z_-][a-zA-Z\d_-]+$/,
 		tag:/^[a-z[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]\s\d-]{2,20}$/

@@ -12,3 +12,8 @@ PraizedAPIURLChecker.check(invalid) // false
 // get error messages
 print( PraizedAPIURLChecker.messages.join(',') ); // "Api Key Missing."
 
+TODO: 
+
+	- separate valid resources from valid nested resources
+	- separate POST from GET in verifs (mainly for: change_password, forgot_password, reset_password, resend_email_confirmation )
+
